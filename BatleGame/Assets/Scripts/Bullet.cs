@@ -5,11 +5,23 @@ using UnityEngine;
 public class Bullet : MonoBehaviour{
 
     public GameObject hitEffect;
-
+    private void Start()
+    {
+        Invoke("Dest", 3f);
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         GameObject effect = Instantiate(hitEffect, transform.position, Quaternion.identity);
         Destroy(effect, 1f);
         Destroy(gameObject);
     }
+
+    void Dest()
+    {
+        GameObject effect = Instantiate(hitEffect, transform.position, Quaternion.identity);
+        Destroy(effect, 1f);
+        Destroy(gameObject);
+    }
+
+
 }

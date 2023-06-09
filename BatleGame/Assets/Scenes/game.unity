@@ -202,6 +202,7 @@ GameObject:
   - component: {fileID: 1281351183}
   - component: {fileID: 1281351182}
   - component: {fileID: 1281351181}
+  - component: {fileID: 1281351184}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -252,7 +253,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 13.921667
+  orthographic size: 22.358139
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -283,6 +284,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1281351184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1281351180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be444624e7b61e74ab779f06eda5af2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Speed: 10
+  Player: {fileID: 1566829444}
+  Camera: {fileID: 1281351180}
 --- !u!1 &1566829444
 GameObject:
   m_ObjectHideFlags: 0
@@ -315,7 +331,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a43cf2f601bafd74a858d83e49a792dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 30
   cum: {fileID: 1281351182}
 --- !u!50 &1566829446
 Rigidbody2D:
@@ -411,6 +427,9 @@ MonoBehaviour:
   firePoint: {fileID: 1869127756}
   bulletPref: {fileID: 2483066986525944133, guid: 092741c0a2d95dd45bdefef8b7ddcd0c, type: 3}
   bulletForce: 20
+  recoil: 0.02
+  recoilDuration: 0.1
+  fireRate: 6
 --- !u!1 &1579289236
 GameObject:
   m_ObjectHideFlags: 0
