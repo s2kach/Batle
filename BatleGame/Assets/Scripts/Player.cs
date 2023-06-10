@@ -19,8 +19,11 @@ public class Player : MonoBehaviour
     public static float stamina = 100f;
     public Vector3 Spawn;
     public static Vector3 SpawnPoint;
+    static bool isDead = false;
+    private static Transform transform;
 
     private bool shifting = false;
+    private static bool hitting = false;
     void shifts(bool s)
     {
         if (s)
@@ -60,22 +63,38 @@ public class Player : MonoBehaviour
         }
     }
 
+
     void Start()
     {
         StaminaBar1.enabled = false;
         StaminaBar2.enabled = false;
+        transform = GetComponent<Transform>();
         rb = GetComponent<Rigidbody2D>();
         SpawnPoint = Spawn;
     }
 
-    
+    public static void Damage(float d)
+    {
+        hitting = true;
+        heath -= d;
+        if (heath <= 0f) { isDead = true; }
+    }
+
+    public void Respawn()
+    {
+        transform.position = SpawnPoint; 
+        heath = 100f; 
+        HeathBar.fillAmount = 1;
+        isDead = false;
+    }
+
     void Update()
     {
         dir.x = Input.GetAxisRaw("Horizontal");
         dir.y = Input.GetAxisRaw("Vertical");
         mouse = cum.ScreenToWorldPoint(Input.mousePosition);
 
-        HeathBar.fillAmount = heath / 100f; // Отображение текущего хп на экране (измеряется в долях единицы)
+        //HeathBar.fillAmount = heath / 100f; // Отображение текущего хп на экране (измеряется в долях единицы)
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             shifting = true;
@@ -87,6 +106,24 @@ public class Player : MonoBehaviour
             
         }
         shifts(shifting);
+
+        if (hitting)
+        {
+            if (HeathBar.fillAmount * 100 > heath)
+            {
+                HeathBar.fillAmount -= 0.001f;
+            }
+            else
+            {
+                hitting = false;
+            }
+        }
+
+        if (isDead)
+        {
+            Respawn();
+        }
+
     }
 
     void FixedUpdate()
