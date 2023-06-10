@@ -19,6 +19,12 @@ public class Bullet : MonoBehaviour{
             Player.heath -= 25f;
             if (Player.heath <= 0f) { collision.transform.position = Player.SpawnPoint; Player.heath = 100f; }
         }
+
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            HpEnemy.heath -= 1f;
+            if (HpEnemy.heath <= 0f) {Destroy(collision.gameObject); }
+        }
     }
 
     void Dest()
