@@ -15,6 +15,8 @@ public class Player : MonoBehaviour
     public static float heath = 100f; // значение хп в процентах
     public Vector3 Spawn;
     public static Vector3 SpawnPoint;
+
+    bool shifting = false; // flag
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -29,7 +31,18 @@ public class Player : MonoBehaviour
         mouse = cum.ScreenToWorldPoint(Input.mousePosition);
         
         HeathBar.fillAmount = heath / 100f; // Отображение текущего хп на экране (измеряется в долях единицы)
-        
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && shifting == false)
+        {
+            speed *= 2;
+            shifting = true;
+        }
+        if (Input.GetKeyUp(KeyCode.LeftShift) && shifting == true)
+        {
+            speed /= 2;
+            shifting = false;
+        }
+
     }
 
     void FixedUpdate()

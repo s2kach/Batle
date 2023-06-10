@@ -11,9 +11,7 @@ public class Bullet : MonoBehaviour{
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        GameObject effect = Instantiate(hitEffect, transform.position, Quaternion.identity);
-        Destroy(effect, 1f);
-        Destroy(gameObject);
+        Dest();
         if (collision.gameObject.CompareTag("Player"))
         {
             Player.heath -= 25f;
@@ -22,7 +20,7 @@ public class Bullet : MonoBehaviour{
 
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            HpEnemy.heath -= 1f;
+            HpEnemy.heath -= 20f;
             if (HpEnemy.heath <= 0f) {Destroy(collision.gameObject); }
         }
     }
