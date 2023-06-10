@@ -41696,7 +41696,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 15
   cum: {fileID: 1281351182}
-  chargeStamina: 1
+  chargeStamina: 0.03
   HeathBar: {fileID: 31499791}
   StaminaBar1: {fileID: 650244749}
   StaminaBar2: {fileID: 594061674}
