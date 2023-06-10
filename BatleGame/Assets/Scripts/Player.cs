@@ -10,15 +10,21 @@ public class Player : MonoBehaviour
     private Vector2 mouse;
     private Rigidbody2D rb;
     public Camera cum;
+    public float chargeStamina = 1f;
 
     public Image HeathBar;
+    public Image StaminaBar1;
+    public Image StaminaBar2;
     public static float heath = 100f; // значение хп в процентах
+    public static float stamina = 100f;
     public Vector3 Spawn;
     public static Vector3 SpawnPoint;
 
     bool shifting = false; // flag
     void Start()
     {
+        StaminaBar1.enabled = false;
+        StaminaBar2.enabled = false;
         rb = GetComponent<Rigidbody2D>();
         SpawnPoint = Spawn;
     }
@@ -29,18 +35,54 @@ public class Player : MonoBehaviour
         dir.x = Input.GetAxisRaw("Horizontal");
         dir.y = Input.GetAxisRaw("Vertical");
         mouse = cum.ScreenToWorldPoint(Input.mousePosition);
-        
+
         HeathBar.fillAmount = heath / 100f; // Отображение текущего хп на экране (измеряется в долях единицы)
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && shifting == false)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && stamina>0f)
         {
-            speed *= 2;
-            shifting = true;
+            speed = 30f;
+            StaminaBar1.enabled = true;
+            StaminaBar2.enabled = true;
+            stamina -= chargeStamina;
+            StaminaBar1.fillAmount = stamina / 100f;
+            StaminaBar2.fillAmount = stamina / 100f;
+
         }
-        if (Input.GetKeyUp(KeyCode.LeftShift) && shifting == true)
+        else if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            speed /= 2;
-            shifting = false;
+            speed = 15f;
+            if (stamina < 100)
+            {
+                StaminaBar1.enabled = true;
+                StaminaBar2.enabled = true;
+                stamina += chargeStamina * 2f;
+                StaminaBar1.fillAmount = stamina / 100f;
+                StaminaBar2.fillAmount = stamina / 100f;
+            }
+            else
+            {
+                stamina = 100f;
+                StaminaBar1.enabled = false;
+                StaminaBar2.enabled = false;
+            }
+        }
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            speed = 15f;
+            if (stamina < 100)
+            {
+                StaminaBar1.enabled = true;
+                StaminaBar2.enabled = true;
+                stamina += chargeStamina * 2;
+                StaminaBar1.fillAmount = stamina / 100f;
+                StaminaBar2.fillAmount = stamina / 100f;
+            }
+            else
+            {
+                stamina = 100f;
+                StaminaBar1.enabled = false;
+                StaminaBar2.enabled = false;
+            }
         }
 
     }
