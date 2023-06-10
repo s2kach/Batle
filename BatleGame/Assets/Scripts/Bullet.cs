@@ -14,6 +14,11 @@ public class Bullet : MonoBehaviour{
         GameObject effect = Instantiate(hitEffect, transform.position, Quaternion.identity);
         Destroy(effect, 1f);
         Destroy(gameObject);
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Player.heath -= 25f;
+            if (Player.heath <= 0f) { collision.transform.position = Player.SpawnPoint; Player.heath = 100f; }
+        }
     }
 
     void Dest()

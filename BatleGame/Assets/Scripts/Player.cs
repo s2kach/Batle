@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -9,9 +10,15 @@ public class Player : MonoBehaviour
     private Vector2 mouse;
     private Rigidbody2D rb;
     public Camera cum;
+
+    public Image HeathBar;
+    public static float heath = 100f; // значение хп в процентах
+    public Vector3 Spawn;
+    public static Vector3 SpawnPoint;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        SpawnPoint = Spawn;
     }
 
     
@@ -20,6 +27,9 @@ public class Player : MonoBehaviour
         dir.x = Input.GetAxisRaw("Horizontal");
         dir.y = Input.GetAxisRaw("Vertical");
         mouse = cum.ScreenToWorldPoint(Input.mousePosition);
+        
+        HeathBar.fillAmount = heath / 100f; // Отображение текущего хп на экране (измеряется в долях единицы)
+        
     }
 
     void FixedUpdate()
