@@ -9,7 +9,7 @@ public class Shooting : MonoBehaviour
     private Rigidbody2D rb;
     public GameObject bulletPref;
     public float bulletForce = 10f; //сила пули
-    public float recoil = 10000f;
+    // public float recoil = 10000f;
     public float recoilDuration = 0.1f;
     private float recoilTime = 0f;
 
@@ -25,16 +25,11 @@ public class Shooting : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            if (Time.time > ReadyForShot) { // ƒобавил условие можно ли уже стрел€ть
+            if (Time.time >= ReadyForShot) { // ƒобавил условие можно ли уже стрел€ть
                 ReadyForShot = Time.time + 1 / fireRate; // когда будет разрешЄн следующий выстрел
                 Shoot();
-                recoilTime = recoilDuration;
             }
             
-        }
-        if (recoilTime > 0f)
-        {
-            recoilTime -= Time.deltaTime;
         }
     }
 

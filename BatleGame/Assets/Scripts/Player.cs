@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     public Image HeathBar;
     public Image StaminaBar1;
     public Image StaminaBar2;
+    public Image ManaBar;
     public static float heath = 100f; // значение хп в процентах
     public static float stamina = 100f;
     public Vector3 Spawn;
@@ -27,12 +28,16 @@ public class Player : MonoBehaviour
     public Transform directionPoint;
     public static Transform directionPointstat;
 
+    
+    public static float Mana = 100f;
+
     private bool lockJerk = false;
 
     private bool shifting = false;
     private static bool hitting = false;
-    
+    public float LockTime = 4f;
 
+    float ReadyToRestoreMana;
     void Start()
     {
         StaminaBar1.enabled = false;
@@ -41,6 +46,7 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         SpawnPoint = Spawn;
         powerRecoilstat = powerRecoil;
+        cum.orthographicSize = 23;
     }
 
     void Update()
@@ -48,29 +54,37 @@ public class Player : MonoBehaviour
         dir.x = Input.GetAxisRaw("Horizontal");
         dir.y = Input.GetAxisRaw("Vertical");
         mouse = cum.ScreenToWorldPoint(Input.mousePosition);
-        
 
+        //ManaBar.fillAmount = Mana / 100f;
         //HeathBar.fillAmount = heath / 100f; // Отображение текущего хп на экране (измеряется в долях единицы)
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             shifting = true;
-            
         }
 
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             shifting = false;
-            
+            cum.orthographicSize = 23;
         }
         shifts(shifting);
+
 
 
         if (Input.GetKeyDown(KeyCode.Space) && !lockJerk)
         {
             lockJerk = true;
-            Invoke("LockJerk", 3);
+            Invoke("LockJerk", LockTime);
+            ManaBar.fillAmount = 0;
             jerk();
         }
+
+        if (ManaBar.fillAmount < 1 && Time.time >= ReadyToRestoreMana)
+        {
+            ReadyToRestoreMana = Time.time + LockTime / 1000f;
+            ManaBar.fillAmount += 0.001f;
+        }
+        
 
         if (hitting)
         {
@@ -114,11 +128,26 @@ public class Player : MonoBehaviour
         HeathBar.fillAmount = 1;
         isDead = false;
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Respawn"))
+        {
+            Respawn();
+        }
+    }
 
     void shifts(bool s)
     {
         if (s)
         {
+            if (dir.x == 0 && dir.y == 0 && stamina != 0)
+            {
+                cum.orthographicSize = 30;
+            }
+            else
+            {
+                cum.orthographicSize = 23;
+            }
             if (stamina > 0)
             {
                 StaminaBar1.enabled = true;
