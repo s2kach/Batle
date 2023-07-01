@@ -33,12 +33,18 @@ public class Shooting : MonoBehaviour
         }
     }
 
+    void stopPlayer()
+    {
+        Player.Stop();
+    }
+
     void Shoot()
     {
         GameObject bullet = Instantiate(bulletPref, firePoint.position, firePoint.rotation);
 
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
         Player.Recoil();
+        Invoke("stopPlayer", 0.05f);
 
         rb.AddForce(firePoint.up * bulletForce, ForceMode2D.Impulse);
     }

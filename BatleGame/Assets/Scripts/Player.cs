@@ -108,7 +108,7 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        rb.MovePosition(rb.position + dir * speed * Time.fixedDeltaTime);
+        rb.transform.position = Vector2.MoveTowards(rb.position, rb.position + dir, speed * Time.fixedDeltaTime);
         Vector2 look = mouse - rb.position;
         float ang = Mathf.Atan2(look.y, look.x) * Mathf.Rad2Deg;
         rb.rotation = ang;
@@ -187,6 +187,17 @@ public class Player : MonoBehaviour
     {
         rb.velocity = new Vector2(0, 0);
         rb.AddForce(directionPoint.up * powerJerk);
+        Invoke("stop", 0.05f);
+    }
+
+    public void stop()
+    {
+        rb.velocity = new Vector2(0, 0);
+    }
+
+    public static void Stop()
+    {
+        rb.velocity = new Vector2(0, 0);
     }
 
     void LockJerk()
